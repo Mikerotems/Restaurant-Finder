@@ -71,15 +71,12 @@ header span {
     color: #3d405B;
     text-decoration: none;
     border-bottom: solid 1px #ddd;
+    transition: background-color .2s ease, color .2s ease, transform .2s ease;
 }
 
 .navigation a:hover {
     background-color: #e7cae3;
-}
-
-main {
-    display: grid;
-    grid-template-columns: 1fr;
+    transform: translateY(-2px);
 }
 
 dialog {
@@ -134,21 +131,39 @@ footer {
     display: flex;
     justify-content: center;
     color: #3d405B;
-    padding: .5rem.3rem;
+    padding: .1rem;
     width: 30px;
     height: 25px;
-    border-radius: 25px;
-    border: solid 1px #3d405B;
+    transition: background-color .2s ease, transform .2s ease;
 }
 
 .social img {
     width: 25px;
     height: 25px;
-    ;
+    transition: transform .2s ease;
 }
 
 .social a:hover {
     background-color: #e7cae3;
+    transform: translateY(-3px) scale(1.08);
+}
+
+.social a:hover img {
+    transform: rotate(8deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .navigation a,
+    .social a,
+    .social img {
+        transition: none;
+    }
+
+    .navigation a:hover,
+    .social a:hover,
+    .social a:hover img {
+        transform: none;
+    }
 }
 
 .course-card {
