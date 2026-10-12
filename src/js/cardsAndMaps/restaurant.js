@@ -13,19 +13,43 @@ const locationCoords = {
 export function getRestaurants({ coords: { latitude: lat, longitude: lon } }) {
   locationCoords.lat = Number(lat);
   locationCoords.lng = Number(lon);
-  const meters = calculateRadius(search_range_Track.value);
-
-  const apiUrl = `https://krrmol812i.execute-api.us-west-2.amazonaws.com/yelpapi?term=${restaurant_name.value}&latitude=${lat}&longitude=${lon}&radius=${meters}&open_now=true&sort_by=best_match&limit=20`;
-
-  handleUrl(apiUrl);
+  const meters = calculateRadius(
+    document.getElementById("search_range_Track").value
+  );
+  const term = document.getElementById("restaurant_name").value;
+  handleUrl(
+    buildApiUrl({
+      term,
+      latitude: lat,
+      longitude: lon,
+      radius: meters,
+    })
+  );
 }
 //Without geolocation. This function uses a searchlocation, searchTerm, and searchRadius to display cards.
 export function noTrackGetRestaurants(searchlocation, searchTerm) {
-  const meters = calculateRadius(search_range_noTrack.value);
-  const apiUrl = `https://krrmol812i.execute-api.us-west-2.amazonaws.com/yelpapi?location=${searchlocation}&radius=${meters}&term=${searchTerm}&open_now=true&sort_by=best_match&limit=20`;
-
-  handleUrl(apiUrl);
+  const meters = calculateRadius(
+    document.getElementById("search_range_noTrack").value
+  );
+  handleUrl(
+    buildApiUrl({
+      location: searchlocation,
+      radius: meters,
+      term: searchTerm,
+    })
+  );
 }
+
+function buildApiUrl(params) {
+  const query = new URLSearchParams({
+    ...params,
+    open_now: "true",
+    sort_by: "best_match",
+    limit: "20",
+  });
+  return `https://krrmol812i.execute-api.us-west-2.amazonaws.com/yelpapi?${query}`;
+}
+
 //Uses json data to handle errors and show the cards
 function handleUrl(url) {
   getData(url).then((json_payload) => {
@@ -39,12 +63,15 @@ function handleUrl(url) {
     } else {
       showRes(restaurants);
     }
+  }).catch((error) => {
+    console.error("Restaurant search failed:", error);
+    handleError();
   });
 }
 //Bulids the card container for the each restaurant and appends to the restaurant_results container. Also gets lat and long of restaurant to draw locations on the map.
 function showRes(restaurants) {
-  restaurant_results.innerHTML = "";
-  map_container.innerHTML = "";
+  const results = document.getElementById("restaurant_results");
+  results.innerHTML = "";
 
   for (const rest of restaurants) {
     const cardContainer = document.createElement("div");
@@ -67,18 +94,18 @@ function showRes(restaurants) {
 
          <div>
       </div>`;
-    restaurant_results.appendChild(cardContainer);
+    results.appendChild(cardContainer);
   }
 
   if (locationCoords.lat == 0 && locationCoords.lng == 0) {
     locationCoords.lat = Number(
-      restaurant_results.children[0].getAttribute("lat")
+      results.children[0].getAttribute("lat")
     );
     locationCoords.lng = Number(
-      restaurant_results.children[0].getAttribute("lng")
+      results.children[0].getAttribute("lng")
     );
   }
-  drawMap(locationCoords);
+  drawMap(locationCoords, restaurants);
 }
 //Converts miles to meters because yelp and google uses meters.
 function calculateRadius(miles) {

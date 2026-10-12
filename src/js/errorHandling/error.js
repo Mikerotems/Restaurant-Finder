@@ -17,10 +17,12 @@ export function handleError(msg = DEFAULT_ERROR_MESSAGE) {
   }
 // Alert the user that the App is not tracking and they need to enter Location
   export function noTracking() {
-    const noTracking = document.getElementById("form_noTrack");
-      noTracking.classList.remove("hidden");
-      const tracking = document.getElementById("form_track");
-      tracking.classList.add("hidden");
+    const noTrackingForm = document.getElementById("form_noTrack");
+    const trackingForm = document.getElementById("form_track");
+    if (noTrackingForm && trackingForm) {
+      noTrackingForm.classList.remove("hidden");
+      trackingForm.classList.add("hidden");
+    }
 
     const alertContainer = document.createElement("div");
     alertContainer.className = "alert alert-info  alert-dismissible fade show";
@@ -33,7 +35,7 @@ export function handleError(msg = DEFAULT_ERROR_MESSAGE) {
     <path d="M11.297 9.176a3.5 3.5 0 0 0-4.474-4.474l.823.823a2.5 2.5 0 0 1 2.829 2.829l.822.822zm-2.943 1.299.822.822a3.5 3.5 0 0 1-4.474-4.474l.823.823a2.5 2.5 0 0 0 2.829 2.829z"/>
     <path d="M3.35 5.47c-.18.16-.353.322-.518.487A13.134 13.134 0 0 0 1.172 8l.195.288c.335.48.83 1.12 1.465 1.755C4.121 11.332 5.881 12.5 8 12.5c.716 0 1.39-.133 2.02-.36l.77.772A7.029 7.029 0 0 1 8 13.5C3 13.5 0 8 0 8s.939-1.721 2.641-3.238l.708.709zm10.296 8.884-12-12 .708-.708 12 12-.708.708z"/>
   </svg>
-          <strong> Please enter your location</strong>
+          <strong>${noTrackingForm ? "Please enter your location" : "Location access is unavailable. Allow location access and try again."}</strong>
           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           `;
     document.body.prepend(alertContainer);
