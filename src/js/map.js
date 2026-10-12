@@ -9,7 +9,7 @@ export function initializeMap(containerId) {
 
   if (!token) {
     status.textContent =
-      "Add your Mapbox public access token to the mapbox-access-token meta tag to display the map.";
+      "Please wait, while we load the map. Try again later if this message persists.";
     return null;
   }
 
