@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="src/styles/small.css">
     <link rel="stylesheet" href="src/styles/larger.css">
+    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/v3.32.0/mapbox-gl.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js" defer></script>
+    <script src="https://api.mapbox.com/mapbox-gl-js/v3.32.0/mapbox-gl.js" defer></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
     <link rel="icon" href="favicon.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,6 +15,8 @@
         rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Restaurant Finder and Healthy food Website">
+    <meta name="mapbox-access-token" content="">
+    <meta name="recipe-api-url" content="">
     <meta name="author" content="Oluwarotimi M Ademola">
     <meta property="og:title" content="Restaurant Finder Website">
     <meta property="og:description"
@@ -22,7 +26,6 @@
         content="https://github.com/Mikerotems/Restaurant-Finder/blob/main/src/images/photo.webp" />
     <script src="src/js/getdates.js" defer></script>
     <script src="src/js/navigation.js" defer></script>
-    <script src="src/js/map.js " defer></script>
     <title>Restaurant Finder and Healthy food Website</title>
 </head>
 
@@ -74,10 +77,19 @@
 
     </main>
     <hr>
+    <section id="recipe_section" class="container" aria-labelledby="recipe-heading">
+      <h2 id="recipe-heading">Food and Recipe Ideas</h2>
+      <p id="recipe_status" role="status" aria-live="polite">
+        Search for food or a restaurant to find matching recipes.
+      </p>
+      <div id="recipe_results" class="recipe-results"></div>
+    </section>
     <!--- container for the restaurant results and the map -->
     <div id="res_container" class="container text-center">
+      <h2>Restaurant Results</h2>
       <div id="restaurant_results" class="row align-items-center justify-content-center"></div>
-      <section id="map_container"></section>
+      <p id="map_status" role="status" aria-live="polite"></p>
+      <section id="map_container" aria-label="Map showing restaurant search results"></section>
     </div>
     <div id="about_us" class="row align-items-center justify-content-center">
       <div class="col-12 text-center justify-content-center">
@@ -109,6 +121,7 @@
         <p></p>
         <p></p>
     </footer>
+    <script type="module" src="src/js/main.js"></script>
 </body>
 
 </html>

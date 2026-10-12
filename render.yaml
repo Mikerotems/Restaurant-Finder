@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: restaurant-finder-edamam-proxy
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: EDAMAM_APP_ID
+        sync: false
+      - key: EDAMAM_APP_KEY
+        sync: false
+      - key: ALLOWED_ORIGINS
+        value: https://mikerotems.github.io,http://localhost:8765,http://127.0.0.1:8765

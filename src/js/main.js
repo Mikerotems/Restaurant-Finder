@@ -8,53 +8,59 @@ import {
 } from "./cardsAndMaps/restaurant.js";
 import { noTracking } from "./errorHandling/error.js";
 import { initializeMap } from "./map.js";
+import { searchRecipes } from "./edamamapi.js";
 
-document.addEventListener('DOMContentLoaded', () => {
-        const map = initializeMap('map-container');
-        return map;
-    });
-// This will turn on the initial location services to set the appropriate form or it will show the notracking form
-if (navigator.geolocation) {
-  navigator.geolocation.getCurrentPosition(() => {}, noTracking);
-}
+initializeMap("map_container");
 
 // When the user hits submit, the getRestaurants function is called passing the coordinates and form data
-form_track.addEventListener("submit", (event) => {
+const trackingForm = document.getElementById("form_track");
+trackingForm?.addEventListener("submit", (event) => {
   event.preventDefault();
+  searchRecipes(document.getElementById("restaurant_name").value);
 
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(getRestaurants, noTracking);
+  } else {
+    noTracking();
   }
 });
 
 // No tracking form submit button functionality. Passes both search and location values
-form_noTrack.addEventListener("submit", (event) => {
+document.getElementById("form_noTrack")?.addEventListener("submit", (event) => {
   event.preventDefault();
+  searchRecipes(document.getElementById("restaurant_name_noTrack").value);
   noTrackGetRestaurants(
-    location_name_noTrack.value,
-    restaurant_name_noTrack.value
+    document.getElementById("location_name_noTrack").value,
+    document.getElementById("restaurant_name_noTrack").value
   );
 });
 
 // Functionality for the "Map" button on the cards. Focuses the map on the restaurant and zooms in.
-restaurant_results.onclick = (event) => {
-  let target = event.target.parentNode;
-  if (target.classList.contains("card-body")) {
-    const coords = {
-      lat: Number(target.parentElement.getAttribute("lat")),
-      lng: Number(target.parentElement.getAttribute("lng")),
-    };
-    centerOnMarker(coords);
-  }
-};
+document.getElementById("restaurant_results").addEventListener("click", (event) => {
+  if (!(event.target instanceof Element)) return;
+  const mapLink = event.target.closest(".card-link");
+  if (!mapLink) return;
+
+  const card = mapLink.closest(".card");
+  centerOnMarker({
+    lat: Number(card.getAttribute("lat")),
+    lng: Number(card.getAttribute("lng")),
+  });
+});
 
 // Event listeners to update the value of the Radius slider as its changed
-search_range_noTrack.addEventListener(
+document.getElementById("search_range_noTrack")?.addEventListener(
   "change",
-  () => (radius_miles_noTrack.textContent = search_range_noTrack.value)
+  (event) => {
+    document.getElementById("radius_miles_noTrack").textContent =
+      event.target.value;
+  }
 );
 
-search_range_Track.addEventListener(
+document.getElementById("search_range_Track")?.addEventListener(
   "change",
-  () => (radius_miles_Track.textContent = search_range_Track.value)
+  (event) => {
+    (document.getElementById("radius_miles_Track").textContent =
+      event.target.value);
+  }
 );
