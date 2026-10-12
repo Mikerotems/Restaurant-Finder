@@ -33,6 +33,73 @@ app.get("/health", (_req, res) => {
   res.json({ status: "ok" });
 });
 
+app.get("/api/restaurants", async (req, res) => {
+  const forwarded = new URLSearchParams();
+  for (const key of ["term", "location", "latitude", "longitude"]) {
+    const value = req.query[key];
+    if (typeof value === "string" && value.trim()) {
+      forwarded.set(key, value.trim());
+    }
+  }
+
+  const hasLocation = forwarded.has("location");
+  const hasLatitude = forwarded.has("latitude");
+  const hasLongitude = forwarded.has("longitude");
+  if (
+    !forwarded.has("term") ||
+    forwarded.get("term").length > 100 ||
+    (!hasLocation && !(hasLatitude && hasLongitude)) ||
+    (hasLocation && (hasLatitude || hasLongitude)) ||
+    (hasLocation && forwarded.get("location").length > 100)
+  ) {
+    return res.status(400).json({
+      error:
+        "A search term (up to 100 characters) and either location or a coordinate pair are required.",
+    });
+  }
+  if (forwarded.has("latitude") || forwarded.has("longitude")) {
+    const latitude = Number(forwarded.get("latitude"));
+    const longitude = Number(forwarded.get("longitude"));
+    if (
+      !Number.isFinite(latitude) ||
+      latitude < -90 ||
+      latitude > 90 ||
+      !Number.isFinite(longitude) ||
+      longitude < -180 ||
+      longitude > 180
+    ) {
+      return res.status(400).json({ error: "Search coordinates are invalid." });
+    }
+  }
+
+  const radius = Number(req.query.radius);
+  if (!Number.isFinite(radius) || radius <= 0) {
+    return res.status(400).json({ error: "Search radius is invalid." });
+  }
+
+  forwarded.set("radius", String(Math.min(Math.round(radius), 40000)));
+  forwarded.set("open_now", "true");
+  forwarded.set("sort_by", "best_match");
+  forwarded.set("limit", "20");
+
+  try {
+    const response = await fetch(
+      `https://krrmol812i.execute-api.us-west-2.amazonaws.com/yelpapi?${forwarded}`,
+      { signal: AbortSignal.timeout(15_000) }
+    );
+    const payload = await response.json();
+    if (!response.ok) {
+      return res.status(response.status).json({
+        error: payload.error?.description ?? payload.message ?? "Restaurant search failed.",
+      });
+    }
+    res.json(payload);
+  } catch (error) {
+    console.error("Restaurant proxy request failed:", error);
+    res.status(502).json({ error: "Restaurant search is temporarily unavailable." });
+  }
+});
+
 app.get("/api/recipes", async (req, res) => {
   const query = typeof req.query.q === "string" ? req.query.q.trim() : "";
   const userId = req.get("Edamam-Account-User") ?? "";

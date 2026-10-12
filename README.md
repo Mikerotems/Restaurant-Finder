@@ -16,11 +16,12 @@ access is available.
 
 ## Edamam setup
 
-The recipe search uses a small Express proxy so the Edamam app key stays on
-the server. Deploy `render.yaml` as a Render Blueprint and enter the app ID
-and app key for an active Recipe Search API v2 application as the prompted
-secret environment variables. The proxy forwards Edamam's active-user header,
-limits requests, and only permits browser requests from the configured
+Recipe and restaurant requests use the small Express service on Render. It
+keeps the Edamam app key server-side and proxies restaurant searches to avoid
+the upstream API's restrictive CORS policy. Deploy `render.yaml` as a Render
+Blueprint and enter the app ID and app key for an active Recipe Search API v2
+application as the prompted secret environment variables. The proxy rate
+limits recipe requests and only permits browser requests from configured
 origins.
 
 After Render deploys the service, copy its HTTPS service URL into the

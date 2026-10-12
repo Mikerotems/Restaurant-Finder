@@ -41,13 +41,20 @@ export function noTrackGetRestaurants(searchlocation, searchTerm) {
 }
 
 function buildApiUrl(params) {
+  const apiUrl = document
+    .querySelector('meta[name="restaurant-api-url"]')
+    ?.content.trim();
+  if (!apiUrl) {
+    throw new Error("Restaurant search service is not configured.");
+  }
+
   const query = new URLSearchParams({
     ...params,
     open_now: "true",
     sort_by: "best_match",
     limit: "20",
   });
-  return `https://krrmol812i.execute-api.us-west-2.amazonaws.com/yelpapi?${query}`;
+  return `${apiUrl.replace(/\/+$/, "")}/api/restaurants?${query}`;
 }
 
 //Uses json data to handle errors and show the cards
@@ -65,7 +72,11 @@ function handleUrl(url) {
     }
   }).catch((error) => {
     console.error("Restaurant search failed:", error);
-    handleError();
+    handleError(
+      error instanceof Error
+        ? error.message
+        : "Could not reach the restaurant search service. Check your connection and try again."
+    );
   });
 }
 //Bulids the card container for the each restaurant and appends to the restaurant_results container. Also gets lat and long of restaurant to draw locations on the map.
