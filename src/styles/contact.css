@@ -1,0 +1,82 @@
+@media screen and (min-width: 900px) {
+    
+    .intro {
+        font-size: 1.05rem;
+        margin-bottom: 2.5rem;
+    }
+
+    .contact-container {
+        grid-template-columns: 400px 1fr;
+        gap: 2.5rem;
+        margin-bottom: 2.5rem;
+    }
+
+    .contact-info,
+    .contact-form {
+        padding: 2rem;
+    }
+
+    .contact-info h3,
+    .contact-form legend {
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .info-card {
+        gap: 1.2rem;
+        margin-bottom: 1.8rem;
+        padding-bottom: 1.8rem;
+    }
+
+    .info-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 2rem;
+    }
+
+    .info-content h4 {
+        font-size: 1.2rem;
+    }
+
+    .form-group {
+        margin-bottom: 1.8rem;
+    }
+
+    .form-group label {
+        font-size: 1rem;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        padding: 0.8rem;
+        font-size: 1rem;
+    }
+
+    .submit-btn {
+        padding: 1rem 2rem;
+        font-size: 1.05rem;
+    }
+
+    .faq-section {
+        padding: 2rem;
+        margin-bottom: 2.5rem;
+    }
+
+    .faq-section h3 {
+        font-size: 1.8rem;
+    }
+
+    .faq-question {
+        padding: 1.5rem;
+        font-size: 1.05rem;
+    }
+
+    .faq-answer {
+        font-size: 1rem;
+    }
+}
+main{
+    padding : 2rem;
+    align-items: center;
+}
