@@ -14,6 +14,17 @@ browser, so use a public token restricted to your deployed website's URL in
 your Mapbox account. Run or deploy the site over HTTPS so browser location
 access is available.
 
+## Restaurant JSON data
+
+Restaurant searches consume the service's `businesses` JSON array. Each result
+is normalized into a 13-field restaurant record: `id`, `name`, `image_url`,
+`url`, `review_count`, `rating`, `categories`, `price`, `distance`,
+`is_closed`, `coordinates`, `location`, and `phone`. The UI builds result cards
+and map markers from these records, displaying the available rating, review
+count, cuisine categories, price, distance, open status, address, and phone.
+Optional fields are omitted from the display when the service does not provide
+them.
+
 ## Edamam setup
 
 Recipe and restaurant requests use the small Express service on Render. It

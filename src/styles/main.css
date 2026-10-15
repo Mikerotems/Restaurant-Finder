@@ -1,0 +1,197 @@
+:root {
+  --brand-red: #e74c3c;
+  --brand-blue: #1489e2;
+  --brand-purple: #6f5ef7;
+  --brand-pink: #e7cae3;
+  --deep-blue: #0a253f;
+  --soft-shadow: 0 1.5rem 3rem rgba(26, 26, 46, 0.12);
+  --strong-shadow: 0 2.5rem 5rem rgba(26, 26, 46, 0.22);
+}
+
+body {
+  animation: fadeInUp 0.8s ease-out both;
+  background: linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.jumbotron-billboard .img {
+  animation: backgroundPan 16s ease-in-out infinite alternate;
+}
+
+@keyframes backgroundPan {
+  0% {
+    transform: scale(1) translateX(0);
+    filter: brightness(0.8) saturate(0.9);
+  }
+
+  100% {
+    transform: scale(1.08) translateX(-10px);
+    filter: brightness(1) saturate(1.1);
+  }
+}
+
+.logo {
+  animation: floatLogo 4s ease-in-out infinite;
+  filter: drop-shadow(0 0.8rem 1.5rem rgba(23, 30, 84, 0.25));
+}
+
+@keyframes floatLogo {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+
+  50% {
+    transform: translateY(-10px) scale(1.03);
+  }
+}
+
+.navigation a,
+.social a,
+.card-btn,
+.card-link,
+.grid-item,
+.submit-btn,
+.filter-buttons button,
+.id_card,
+.recipe-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, filter 0.3s ease;
+}
+
+.navigation a:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0.75rem 1.5rem rgba(111, 94, 247, 0.15);
+}
+
+.social a:hover {
+  transform: translateY(-4px) rotate(8deg) scale(1.08);
+  background-color: rgba(111, 94, 247, 0.08);
+}
+
+.social a:hover img {
+  transform: rotate(12deg) scale(1.1);
+}
+
+.grid-item,
+.recipe-card,
+.id_card {
+  box-shadow: var(--soft-shadow);
+}
+
+.grid-item:hover,
+.recipe-card:hover,
+.id_card:hover {
+  transform: translateY(-8px) scale(1.01);
+  box-shadow: var(--strong-shadow);
+}
+
+.grid-item:hover .card-img {
+  transform: scale(1.06);
+  filter: saturate(1.1);
+}
+
+.card-img {
+  transition: transform 0.45s ease, filter 0.45s ease;
+}
+
+#about_us .id_card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#about_us .id_card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 1.2rem 2.3rem rgba(15, 23, 42, 0.18);
+}
+
+#about_us .portrait {
+  transition: transform 0.3s ease;
+}
+
+#about_us .id_card:hover .portrait {
+  transform: scale(1.03);
+}
+
+.card-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.card-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, transparent 20%, rgba(255, 255, 255, 0.55), transparent 80%);
+  transform: translateX(-110%);
+  transition: transform 0.5s ease;
+}
+
+.card-btn:hover::before,
+.card-btn:focus-visible::before {
+  transform: translateX(110%);
+}
+
+.card-btn:hover,
+.card-btn:focus-visible,
+.card-link:hover,
+.submit-btn:hover,
+.submit-btn:focus-visible,
+.filter-buttons button:hover {
+  transform: translateY(-2px);
+}
+
+.card-link:hover {
+  box-shadow: 0 0.5rem 1rem rgba(0, 127, 255, 0.18);
+}
+
+.filter-buttons button:hover {
+  box-shadow: 0 0.75rem 1.5rem rgba(231, 76, 60, 0.2);
+}
+
+.submit-btn:hover,
+.submit-btn:focus-visible {
+  animation: pulseGlow 1.2s ease-in-out infinite alternate;
+}
+
+@keyframes pulseGlow {
+  from {
+    box-shadow: 0 0 0 rgba(111, 94, 247, 0.2);
+    transform: translateY(0);
+  }
+
+  to {
+    box-shadow: 0 0 1.25rem rgba(111, 94, 247, 0.35);
+    transform: translateY(-2px);
+  }
+}
+
+.social a,
+.navigation a,
+.card-link,
+.card-btn,
+.submit-btn,
+.grid-item,
+.recipe-card,
+.id_card {
+  will-change: transform, box-shadow;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
