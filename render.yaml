@@ -12,3 +12,7 @@ services:
         sync: false
       - key: ALLOWED_ORIGINS
         value: https://mikerotems.github.io,http://localhost:8765,http://127.0.0.1:8765
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true

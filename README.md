@@ -41,3 +41,19 @@ testing, run `npm start` with `EDAMAM_APP_ID`, `EDAMAM_APP_KEY`, and
 `ALLOWED_ORIGINS` set in the environment, then put the local server URL
 (`http://localhost:3000`) in that meta tag. Never put the Edamam app key in
 the page or commit it to the repository.
+
+## User registration and login
+
+The Express service exposes `POST /api/users/register` and
+`POST /api/users/login`, plus `GET /api/users/auth` to verify a login token.
+Registration requires a MongoDB connection; login also requires `JWT_SECRET`.
+Set `MONGODB_URI` in Render to the connection string for your MongoDB database;
+Render generates `JWT_SECRET` from `render.yaml`.
+The frontend uses the `auth-api-url` meta tag in `login.html` and
+`details.html`, which should point to the deployed service URL.
+
+For local testing, set `MONGODB_URI`, `JWT_SECRET`, and `ALLOWED_ORIGINS`
+before starting the service. Registration requires a valid email and a
+password of at least 8 characters and no more than 72 UTF-8 bytes. A successful
+login stores its short-lived token for the current browser tab and shows a
+verified login confirmation on `details.html`.
